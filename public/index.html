@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>你身边的美女</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <!-- <h1 class="title">真人在线美女聊天</h1> -->
+    <div id="homepage">
+        <h1>搜索附近的人</h1>
+        <div id="girls"></div>
+    </div>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react@16.7.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js"></script>
+
+    <!-- Create React Component -->
+
+
+    <!--
+            <label>输入纬度: </label>
+                <input type="text" ref="lat" placehorder="latitude" required />    
+                <label>输入经度: </label>
+                <input type="text" ref="lng" placehorder="longitude" required />    
+        -->
+
+
+    <script type="text/babel">
+        class Girls extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    girls: []
+                }
+                this.handleSubmit = this.handleSubmit.bind(this)
+            }
+            handleSubmit(e) {
+                e.preventDefault();
+                // var lng = this.refs.lng.value
+                // var lat = this.refs.lat.value
+                var lng = -65
+                var lat = 30
+                fetch('/api/online/users?lng=' + lng + '&lat=' + lat)
+                    .then((data) => {
+                        console.log("data", data)
+                        return data.json()
+                    })
+                    .then(json => {
+                        console.log("json", json)
+                        this.setState((state, props) => (
+                            {
+                                girls: json
+                            }
+                        ))
+                    })
+                    .catch(console.error)
+            }
+            render() {
+                var girls = this.state.girls
+                console.info("girls", girls)
+                girls = girls.map(function (girl, index) {
+                    return (
+                        <li key={index}>
+                            <span className="avatar"><img src={"/img/girl" + girl.imgid + ".jpg"} /></span>
+                            <span className={girl.online}></span>
+                            <span className="name">{girl.name}</span>
+                            <span className="age">{girl.age}岁</span>
+                            <span className="dist">{Math.floor(girl.dist.calculated / 10000)} 米</span>
+                        </li>
+                    )
+                })
+                return (
+                    <div id="girl-container">
+                        <form id="search" onSubmit={this.handleSubmit}>
+                            <input type="submit" value="寻找" />
+                        </form>
+                        <ul>{girls}</ul>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Girls />, document.getElementById('girls'))
+
+    </script>
+</body>
+
+</html>
