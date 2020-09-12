@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
 mongoose.set('useFindAndModify', false);
-mongoose.connect('mongodb://localhost:27017/online')
+mongoose.connect('mongodb://xutai.site:27017/online')
 
 const db = mongoose.connection
 

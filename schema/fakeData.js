@@ -1,6 +1,12 @@
 // db ops
 // fake data:
 
+db.users.deleteMany({})
+
+db.users.createIndex(
+    { location: '2dsphere'}
+)
+
 // mongo shell or mongosh
 db.users.insert(
     [
