@@ -2,9 +2,13 @@ project, online friends
 
 
 
-refs: net ninja
 
+tech stack:
 - restapi
-- postman
+- react.js
+- express.js
 - mongodb
+- postman
 - mongoose
+
+refs: net ninja
